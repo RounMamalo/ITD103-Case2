@@ -1,0 +1,59 @@
+import React, { useState, useMemo } from "react";
+import styled from "styled-components";
+import { MainLayout } from "./styles/Layouts";
+import Orb from "./Components/Orb/Orb";
+import Navigation from "./Components/Navigation/Navigation";
+import Dashboard from "./Components/Dashboard/Dashboard";
+import ViewData from "./Components/ViewData/ViewData";
+import Reports from "./Components/Reports/Reports";
+
+function App() {
+  const [active, setActive] = useState(1);
+
+  const displayData = () => {
+    switch (active) {
+      case 1:
+        return <Dashboard />;
+      case 2:
+        return <ViewData />;
+      case 3:
+        return <Reports />;
+      default:
+        return <Dashboard />;
+    }
+  };
+
+  const orbMemo = useMemo(() => {
+    return <Orb />;
+  }, []);
+
+  return (
+    <AppStyled className="App">
+      <>
+        {orbMemo}
+        <MainLayout>
+          <Navigation active={active} setActive={setActive} />
+          <main>{displayData()}</main>
+        </MainLayout>
+      </>
+    </AppStyled>
+  );
+}
+
+const AppStyled = styled.div`
+  height: 100vh;
+  position: relative;
+  main {
+    flex: 1;
+    background: rgba(252, 246, 249, 0.78);
+    border: 3px solid #ffffff;
+    backdrop-filter: blur(4.5px);
+    border-radius: 32px;
+    overflow-x: hidden;
+    &::-webkit-scrollbar {
+      width: 0;
+    }
+  }
+`;
+
+export default App;
